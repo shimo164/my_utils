@@ -41,7 +41,12 @@ done
 
 # Prompt for a stash message
 echo "Enter a stash message:"
-read stash_message
+read user_message
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+short_hash=$(git rev-parse --short HEAD)
+current_date=$(date +"%m/%d %H:%M")
+message="On ${current_branch}: ${short_hash} ${current_date} ${user_message}"
 
 # Stash the selected files
-git stash push -u -m "$stash_message" -- "${filtered_files_array[@]}"
+git stash push -u -m "$message" -- "${filtered_files_array[@]}"

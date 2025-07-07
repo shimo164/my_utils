@@ -16,9 +16,6 @@ Usage:
 Dependencies:
 fzf: https://github.com/junegunn/fzf
 settings.sh: should be in the same directory as main.sh
-
-Author: Your Name
-Date: Month Day, Year
 '
 
 # Get the directory of the currently executing script
@@ -27,12 +24,23 @@ DIR="${SCRIPTS}"
 declare -A commands
 commands=(
   ["git push force-with-lease"]="git push --force-with-lease --force-if-includes"
-  ["git toplevel dir"]="git rev-parse --show-toplevel"
   ["git safe push"]="bash ${DIR}/git_safe_push.sh"
-  ["git checkout"]="bash ${DIR}/git_branch_checkout.sh"
   ["git stash specific files"]="bash ${DIR}/git_stash_specific_files.sh"
+  ["git toplevel dir"]="git rev-parse --show-toplevel"
+  ["git ignore global"]="code ~/.config/git/ignore"
+  ["git checkout"]="bash ${DIR}/git_branch_checkout.sh"
   ["ChatGPT print out files"]="bash ${DIR}/print_out_selected_files.sh > ${DIR}/tmp_print_out_selected_files.txt && code ${DIR}/tmp_print_out_selected_files.txt"
 )
+
+declare -A commands_private
+commands_private=(
+
+)
+
+# Merge commands and commands_private
+for key in "${!commands_private[@]}"; do
+  commands["$key"]="${commands_private[$key]}"
+done
 
 # Create a list of aliases for fzf, sorted alphabetically
 alias_list=$(printf '%s\n' "${!commands[@]}" | sort)
