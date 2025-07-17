@@ -1,3 +1,5 @@
+This repos is merged into https://github.com/shimo164/.my_utils
+
 # my_utils
 
 
